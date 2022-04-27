@@ -77,6 +77,7 @@
         	   if(index==8)
         	   {
         		   out.println("<td>"+"<a href='javascript:void(0);' onclick='formReset()'>修改</a>"+"&nbsp"+"<a href=''>删除</a>");
+        		   out.println("<input type='button' onclick='editRow(this)' value='修改'/>");
         		   out.println("</tr>");
         		   index=1;
         	   }
@@ -92,18 +93,18 @@
      <form id="myform" action="gradeList.jsp" method="post">
       <fieldset>
          <legend>图书信息</legend>
-         名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<input type="text" name="bookname"><br>
-         作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：<input type="text" name="writer"><br>
+         名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<input type="text" name="bookname" id="bookname"><br>
+         作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：<input type="text" name="writer" id="writer"><br>
          类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：<input type="radio" name="check" value="软件工程">软件工程&nbsp;
          <input type="radio" name="check" value="程序设计">程序设计&nbsp;
          <input type="radio" name="check" value="数据结构">数据结构<br>
-         价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：<input type="text" name="price" ><br>
-         出&nbsp;版&nbsp;社：<select name="outname">
+         价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：<input type="text" name="price" id="price"><br>
+         出&nbsp;版&nbsp;社：<select name="outname" id="outname">
            <option value="清华大学出版社" selected="">清华大学出版社</option>
 						<option value="北京大学出版社">北京大学出版社</option>
 						<option value="机械工业出版社">机械工业出版社</option>
          </select><br>        
-         出版时间：<input type="text" name="outtime"><br>
+         出版时间：<input type="text" name="outtime" id="outtime"><br>
          <input type="submit" value="取消">&nbsp;&nbsp;<input type="submit" value="确定">
       </fieldset>
      </form>  
@@ -115,5 +116,31 @@
 	  {
 		document.getElementById('myform').reset();
 	  }
+	  <!--修改图书信息-->
+	  function editRow(el){
+		 var tr=el.parentNode.parentNode;
+		 var cells=tr.cells; //获取单元格数
+		 var bn=cells[1].innerText;
+		 var wt=cells[2].innerText;
+		 var type=cells[3].innerText;
+		 var p=cells[4].innerText;
+		 var out=cells[5].innerText;
+		 var time=cells[6].innerText;
+		 var checkr=document.getElementsByName('check');
+			for(var i=0;i<checkr.length;i++)
+			{
+				if(checkr[i].value==type)
+				{
+					checkr[i].checked=true;
+					break;
+				}
+			}
+		 document.getElementById('bookname').value=bn;
+	     document.getElementById('writer').value=wt;
+		 document.getElementById('price').value=p;
+		 document.getElementById('outname').value=out;
+		 document.getElementById('outtime').value=time;		 
+	  }
+	  
    </script>
 </html>
