@@ -3,17 +3,31 @@
 <%@page import="java.io.*"%>
 <%@page import="java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>   
+    <%
+      String BookName=request.getParameter("bookname");
+      String Writer=request.getParameter("writer");
+      String Price=request.getParameter("price");
+      String Outname=request.getParameter("outname");
+      String Time=request.getParameter("outtime");
+      String num="4";
+      //获取单选框的值
+      String Type=request.getParameter("check");
+      String newStr=num+' '+BookName+' '+Writer+' '+Type+' '+Price+' '+Outname+' '+Time+' '; //新增行的信息
+      //打开txt文件
+      File file_02=new File("D://books.txt");
+      FileWriter writef=new FileWriter(file_02,true);
+      if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null)
+      {
+    	  writef.write(newStr+"\n");
+      }    
+      writef.close();
+    %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
    <title>My Books List</title>
-   <script type="text/javascript">
-   <!-- 新增一行 -->
-  
-   
-   </script>
 </head>
 <body>
    <!-- 图书表格 -->
@@ -59,12 +73,12 @@
            br.close();
         %>
       </table>  
-      <input type="button" value="新增图书"/>  &nbsp  <input type="button" value="操作信息" /><p></p>
+      <input type="button" value="新增图书"/>&nbsp<input type="button" value="操作信息" /><p></p>
    </div>
 
    <!-- 图书信息列表 -->
    <div id="form1">
-     <form name="myform">
+     <form name="myform" action="gradeList.jsp" method="post">
       <fieldset>
          <legend>图书信息</legend>
          名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<input type="text" name="bookname"><br>
@@ -79,11 +93,10 @@
 						<option value="机械工业出版社">机械工业出版社</option>
          </select><br>        
          出版时间：<input type="text" name="outtime"><br>
-         <input type="button" value="取消">&nbsp;&nbsp;<input type="button" value="确定">
+         <input type="submit" value="取消">&nbsp;&nbsp;<input type="submit" value="确定">
       </fieldset>
-      
-     </form>
-   
+     </form>  
    </div>
+   
 </body>
 </html>
