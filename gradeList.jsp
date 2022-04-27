@@ -5,15 +5,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>   
     <%
+       //判断图书编号
+       File files=new File("D://books.txt");
+       FileReader frs=new FileReader(files); //字符输入流
+       BufferedReader brs=new BufferedReader(frs); 
+       String lineNum="";
+       int number=0; //图书编号
+       while((lineNum=brs.readLine())!=null)
+       {
+  	     number++;
+       }      
+      brs.close();
       String BookName=request.getParameter("bookname");
       String Writer=request.getParameter("writer");
       String Price=request.getParameter("price");
       String Outname=request.getParameter("outname");
       String Time=request.getParameter("outtime");
-      String num="4";
+      String num=""+number;
       //获取单选框的值
       String Type=request.getParameter("check");
-      String newStr=num+' '+BookName+' '+Writer+' '+Type+' '+Price+' '+Outname+' '+Time+' '; //新增行的信息
+      String newStr=num+' '+BookName+' '+Writer+' '+Type+' '+Price+' '+Outname+' '+Time+' '; //新增行的信息      
       //打开txt文件
       File file_02=new File("D://books.txt");
       FileWriter writef=new FileWriter(file_02,true);
@@ -65,7 +76,7 @@
         	   }
         	   if(index==8)
         	   {
-        		   out.println("<td>"+"<a href=''>修改</a>"+"&nbsp"+"<a href=''>删除</a>");
+        		   out.println("<td>"+"<a href='javascript:void(0);' onclick='formReset()'>修改</a>"+"&nbsp"+"<a href=''>删除</a>");
         		   out.println("</tr>");
         		   index=1;
         	   }
@@ -73,12 +84,12 @@
            br.close();
         %>
       </table>  
-      <input type="button" value="新增图书"/>&nbsp<input type="button" value="操作信息" /><p></p>
+      <input type="button" value="新增图书" onclick="formReset()"/>&nbsp<input type="button" value="操作信息" /><p></p>
    </div>
 
    <!-- 图书信息列表 -->
    <div id="form1">
-     <form name="myform" action="gradeList.jsp" method="post">
+     <form id="myform" action="gradeList.jsp" method="post">
       <fieldset>
          <legend>图书信息</legend>
          名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<input type="text" name="bookname"><br>
@@ -96,7 +107,13 @@
          <input type="submit" value="取消">&nbsp;&nbsp;<input type="submit" value="确定">
       </fieldset>
      </form>  
-   </div>
-   
+   </div>  
 </body>
+   <script type="text/javascript">
+      <!--功能:按下按钮后清空表单-->
+	  function formReset()
+	  {
+		document.getElementById('myform').reset();
+	  }
+   </script>
 </html>
