@@ -5,18 +5,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>   
     <%
-       //判断图书编号
-       File files=new File("D://books.txt");
-       FileReader frs=new FileReader(files); //字符输入流
-       BufferedReader brs=new BufferedReader(frs); 
-       String lineNum="";
-       int number=0; //图书编号
-       while((lineNum=brs.readLine())!=null)
-       {
-  	     number++;
-       }      
+      //判断图书编号
+      File files=new File("D://books.txt");
+      FileReader frs=new FileReader(files); //字符输入流
+      BufferedReader brs=new BufferedReader(frs); 
+      String lineNum="";
+      int number=0; //图书编号
+      while((lineNum=brs.readLine())!=null)
+      {
+  	    number++;
+      }      
       brs.close();
       String nLine=request.getParameter("nl");
+      String nLine2=request.getParameter("nl2");
       String BookName=request.getParameter("bookname");
       String Writer=request.getParameter("writer");
       String Price=request.getParameter("price");
@@ -27,13 +28,18 @@
       String Type=request.getParameter("check");
       String newStr=num+' '+BookName+' '+Writer+' '+Type+' '+Price+' '+Outname+' '+Time+' '; //新增行的信息  
             
-      int cNELine=0;     
+      int cNELine=0,cNELine2=0;     
       try{
 		  cNELine=Integer.parseInt(nLine); //当前需要修改的行号
 	  }catch (Exception e){
 		  e.printStackTrace();
-	  }   	 
-      if(nLine!=null&&cNELine!=0)
+	  }  
+      try{
+		  cNELine2=Integer.parseInt(nLine2); //当前需要删除的行号
+	  }catch (Exception e){
+		  e.printStackTrace();
+	  }
+      if(nLine!=null&&cNELine!=0) //修改
       {    	   
     	  File file_03=new File("D://books.txt");
           FileReader fr_03=new FileReader(file_03); 
@@ -45,34 +51,57 @@
           {    	  
         	  if(in==cNELine)
         	  {
-        		  num=cNELine+""; //更新图书编号
-        		  newStr=num+' '+BookName+' '+Writer+' '+Type+' '+Price+' '+Outname+' '+Time+' ';
-        		  allStr=allStr+newStr+"\n";
+        		num=cNELine+""; //更新图书编号
+        		newStr=num+' '+BookName+' '+Writer+' '+Type+' '+Price+' '+Outname+' '+Time+' ';
+        		allStr=allStr+newStr+"\n";      		  
         	  }       		  
         	  else
         		  allStr=allStr+temp+"\n";   	  
         	  temp=br_03.readLine();
         	  in++;
           }
-          br_03.close();
-          
+          br_03.close();         
           File file_04=new File("D://books.txt");
           FileWriter writef_04=new FileWriter(file_04);
           if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null)
           {
         	  writef_04.write(allStr);
-          }    
+          } 
           writef_04.close();
       }    	      
-      
+      if(cNELine2!=0) //删除
+      { 
+    	  out.println(cNELine2);
+    	  File file_05=new File("D://books.txt");
+          FileReader fr_05=new FileReader(file_05); 
+          BufferedReader br_05=new BufferedReader(fr_05);   
+          String temp2=br_05.readLine();
+          String allStr2="";
+          int in2=0;
+          while(temp2!=null) //更新文件信息
+          {    	        		  
+        	  if(cNELine2!=in2)
+        	  {
+        		  allStr2=allStr2+temp2+"\n";  
+        	  }       		   	  
+        	  temp2=br_05.readLine();
+        	  in2++;
+          }
+          br_05.close();         
+          File file_06=new File("D://books.txt");
+          FileWriter writef_06=new FileWriter(file_06);
+          writef_06.write(allStr2);
+          writef_06.close();
+      }      
       //打开txt文件
       File file_02=new File("D://books.txt");
       FileWriter writef=new FileWriter(file_02,true);
-      if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null&&cNELine==0)
+      if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null&&cNELine==0&&cNELine2==0) //新增
       {
     	  writef.write(newStr+"\n");
       }    
       writef.close();
+      //实时检查更新图书编号
     %>
 <!DOCTYPE html>
 <html>
@@ -118,6 +147,7 @@
         	   {
         		   out.println("<td>"+"<a href='javascript:void(0);' onclick='formReset()'>修改</a>"+"&nbsp"+"<a href=''>删除</a>");
         		   out.println("<input type='button' onclick='editRow(this)' value='修改'/>");
+        		   out.println("<input type='button' onclick='remove(this)' value='删除'/>");
         		   out.println("</tr>");
         		   index=1;
         	   }
@@ -147,15 +177,24 @@
          出版时间：<input type="text" name="outtime" id="outtime"><br>
          <input type="submit" value="取消">&nbsp;&nbsp;<input type="submit" value="确定">
          <input type="text" style="display:none" name="nl" id="nl"/>
+         <input type="text" style="display:none" name="nl2" id="nl2"/>
       </fieldset>
      </form>  
    </div>  
 </body>
    <script type="text/javascript">
+      <!--删除图书信息-->
+      function remove(el)
+      {
+    	 var tr2=el.parentNode.parentNode;
+ 		 var cells=tr2.cells; //获取单元格数
+    	 var NL=cells[0].innerText; //获取当前行数,便于修改txt文档
+    	 document.getElementById('nl2').value=NL;
+      }
       <!--功能:按下按钮后清空表单-->
 	  function formReset()
 	  {
-		document.getElementById('myform').reset();
+		 document.getElementById('myform').reset();
 	  }
 	  <!--修改图书信息-->
 	  function editRow(el){
