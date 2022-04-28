@@ -16,6 +16,7 @@
   	     number++;
        }      
       brs.close();
+      String nLine=request.getParameter("nl");
       String BookName=request.getParameter("bookname");
       String Writer=request.getParameter("writer");
       String Price=request.getParameter("price");
@@ -24,11 +25,50 @@
       String num=""+number;
       //获取单选框的值
       String Type=request.getParameter("check");
-      String newStr=num+' '+BookName+' '+Writer+' '+Type+' '+Price+' '+Outname+' '+Time+' '; //新增行的信息      
+      String newStr=num+' '+BookName+' '+Writer+' '+Type+' '+Price+' '+Outname+' '+Time+' '; //新增行的信息  
+            
+      int cNELine=0;     
+      try{
+		  cNELine=Integer.parseInt(nLine); //当前需要修改的行号
+	  }catch (Exception e){
+		  e.printStackTrace();
+	  }   	 
+      if(nLine!=null&&cNELine!=0)
+      {    	   
+    	  File file_03=new File("D://books.txt");
+          FileReader fr_03=new FileReader(file_03); 
+          BufferedReader br_03=new BufferedReader(fr_03);   
+          String temp=br_03.readLine();
+          String allStr="";
+          int in=0;
+          while(temp!=null) //更新文件信息
+          {    	  
+        	  if(in==cNELine)
+        	  {
+        		  num=cNELine+""; //更新图书编号
+        		  newStr=num+' '+BookName+' '+Writer+' '+Type+' '+Price+' '+Outname+' '+Time+' ';
+        		  allStr=allStr+newStr+"\n";
+        	  }       		  
+        	  else
+        		  allStr=allStr+temp+"\n";   	  
+        	  temp=br_03.readLine();
+        	  in++;
+          }
+          br_03.close();
+          
+          File file_04=new File("D://books.txt");
+          FileWriter writef_04=new FileWriter(file_04);
+          if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null)
+          {
+        	  writef_04.write(allStr);
+          }    
+          writef_04.close();
+      }    	      
+      
       //打开txt文件
       File file_02=new File("D://books.txt");
       FileWriter writef=new FileWriter(file_02,true);
-      if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null)
+      if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null&&cNELine==0)
       {
     	  writef.write(newStr+"\n");
       }    
@@ -106,6 +146,7 @@
          </select><br>        
          出版时间：<input type="text" name="outtime" id="outtime"><br>
          <input type="submit" value="取消">&nbsp;&nbsp;<input type="submit" value="确定">
+         <input type="text" style="display:none" name="nl" id="nl"/>
       </fieldset>
      </form>  
    </div>  
@@ -120,7 +161,7 @@
 	  function editRow(el){
 		 var tr=el.parentNode.parentNode;
 		 var cells=tr.cells; //获取单元格数
-		 var lineNum=cells[0].innerText; //获取当前行数,便于修改txt文档
+		 var NL=cells[0].innerText; //获取当前行数,便于修改txt文档
 		 var bn=cells[1].innerText;
 		 var wt=cells[2].innerText;
 		 var type=cells[3].innerText;
@@ -140,7 +181,8 @@
 	     document.getElementById('writer').value=wt;
 		 document.getElementById('price').value=p;
 		 document.getElementById('outname').value=out;
-		 document.getElementById('outtime').value=time;		 
+		 document.getElementById('outtime').value=time;	
+		 document.getElementById('nl').value=NL;
 	  }
 	  
 	  
