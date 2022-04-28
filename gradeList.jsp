@@ -71,7 +71,6 @@
       }    	      
       if(cNELine2!=0) //删除
       { 
-    	  out.println(cNELine2);
     	  File file_05=new File("D://books.txt");
           FileReader fr_05=new FileReader(file_05); 
           BufferedReader br_05=new BufferedReader(fr_05);   
@@ -102,6 +101,45 @@
       }    
       writef.close();
       //实时检查更新图书编号
+      FileReader fr_07=new FileReader("D://books.txt"); 
+      BufferedReader br_07=new BufferedReader(fr_07);
+      String temp3=br_07.readLine();
+      String allStr3="";
+      int ch3,index3=0,n=1;
+      String finalStr="图书编号 图书名称 作者信息 类型 价格 出版社 出版时间"+"\n";
+      char ts;
+      while((ch3=br_07.read())!=-1) //更新文件信息
+      {
+    	  if((char)ch3!=' ')
+    	  {
+    		  if(index3==0)
+    		  {
+    			  finalStr=finalStr+""+n;
+    			  n++; //图书编号++
+    		  }
+    		  else
+    		  {
+    			  ts=(char)ch3;
+    			  finalStr=finalStr+String.valueOf(ts);
+    			  if(index3==7)
+    			  {
+    				  index3=0;
+    				  //finalStr=finalStr+"\n";
+    			  }   				  
+    		  }
+    	  }
+    	  else
+    	  {
+    		  index3++;
+    		  finalStr=finalStr+" ";
+    	  }    		      	  
+      }     
+      br_07.close();
+      File file_08=new File("D://books.txt");
+      FileWriter writef_08=new FileWriter(file_08);
+      writef_08.write(finalStr);
+      writef_08.close();
+      
     %>
 <!DOCTYPE html>
 <html>
@@ -222,8 +260,6 @@
 		 document.getElementById('outname').value=out;
 		 document.getElementById('outtime').value=time;	
 		 document.getElementById('nl').value=NL;
-	  }
-	  
-	  
+	  }	  
    </script> 
 </html>
