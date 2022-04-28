@@ -120,6 +120,7 @@
 	  function editRow(el){
 		 var tr=el.parentNode.parentNode;
 		 var cells=tr.cells; //获取单元格数
+		 var lineNum=cells[0].innerText; //获取当前行数,便于修改txt文档
 		 var bn=cells[1].innerText;
 		 var wt=cells[2].innerText;
 		 var type=cells[3].innerText;
@@ -142,5 +143,6 @@
 		 document.getElementById('outtime').value=time;		 
 	  }
 	  
-   </script>
+	  
+   </script> 
 </html>
