@@ -6,7 +6,7 @@
     pageEncoding="UTF-8"%>   
     <%
       //判断图书编号
-      File files=new File("/books.txt");
+      File files=new File(request.getSession().getServletContext().getRealPath("/"),"books.txt");
       FileReader frs=new FileReader(files); //字符输入流
       BufferedReader brs=new BufferedReader(frs); 
       String lineNum="";
@@ -41,7 +41,7 @@
 	  }
       if(nLine!=null&&cNELine!=0) //修改
       {    	   
-    	  File file_03=new File("/books.txt");
+    	  File file_03=new File(request.getSession().getServletContext().getRealPath("/"),"books.txt");
           FileReader fr_03=new FileReader(file_03); 
           BufferedReader br_03=new BufferedReader(fr_03);   
           String temp=br_03.readLine();
@@ -61,7 +61,7 @@
         	  in++;
           }
           br_03.close();         
-          File file_04=new File("/books.txt");
+          File file_04=new File(request.getSession().getServletContext().getRealPath("/"),"books.txt");
           FileWriter writef_04=new FileWriter(file_04);
           if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null)
           {
@@ -71,7 +71,7 @@
       }    	      
       if(cNELine2!=0) //删除
       { 
-    	  File file_05=new File("/books.txt");
+    	  File file_05=new File(request.getSession().getServletContext().getRealPath("/"),"books.txt");
           FileReader fr_05=new FileReader(file_05); 
           BufferedReader br_05=new BufferedReader(fr_05);   
           String temp2=br_05.readLine();
@@ -87,13 +87,13 @@
         	  in2++;
           }
           br_05.close();         
-          File file_06=new File("/books.txt");
+          File file_06=new File(request.getSession().getServletContext().getRealPath("/"),"books.txt");
           FileWriter writef_06=new FileWriter(file_06);
           writef_06.write(allStr2);
           writef_06.close();
       }      
       //打开txt文件
-      File file_02=new File("/books.txt");
+      File file_02=new File(request.getSession().getServletContext().getRealPath("/"),"books.txt");
       FileWriter writef=new FileWriter(file_02,true);
       if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null&&cNELine==0&&cNELine2==0) //新增
       {
@@ -101,7 +101,8 @@
       }    
       writef.close();
       //实时检查更新图书编号
-      FileReader fr_07=new FileReader("/books.txt"); 
+      File file_07=new File(request.getSession().getServletContext().getRealPath("/"),"books.txt");
+      FileReader fr_07=new FileReader(file_07); 
       BufferedReader br_07=new BufferedReader(fr_07);
       String temp3=br_07.readLine();
       String allStr3="";
@@ -134,7 +135,7 @@
     	  }    		      	  
       }     
       br_07.close();
-      File file_08=new File("/books.txt");
+      File file_08=new File(request.getSession().getServletContext().getRealPath("/"),"books.txt");
       FileWriter writef_08=new FileWriter(file_08);
       writef_08.write(finalStr);
       writef_08.close();
@@ -150,14 +151,15 @@
 <body>
    <!-- 图书表格 -->
    <div class="mytable">
-      <table border="1" id="myTable">
+      <table border="1" id="myTable" class="c">
          <tr align="center">
 			<td>图书编号</td><td>图书名称</td><td>作者信息</td><td>类型</td>
 			<td>价格</td><td>出版社</td><td>出版时间</td><td>操作</td>
 		</tr>
 		<!-- 读取txt文档信息 -->
         <%
-           File file=new File("/books.txt");
+           File file=new File(request.getSession().getServletContext().getRealPath("/"),"books.txt");
+           //out.println(file);
            FileReader fr=new FileReader(file); //字符输入流
            BufferedReader br=new BufferedReader(fr); //字符缓冲流,可以逐行读取            
            String Line_1=br.readLine(); //读取第一行
@@ -189,15 +191,14 @@
         	   }
            }          
            br.close();
-        %>
-      </table>  
-      <input type="button" value="新增图书" onclick="formReset()"/>&nbsp<input type="button" value="操作信息" />
-      <p></p>
+        %>        
+      </table>            
+      <input type="button" value="新增图书" onclick="formReset()" class="c3"/>&nbsp<input type="button" value="操作信息" class="c4"/>
    </div>
 
    <!-- 图书信息列表 -->
    <div class="form1">
-     <form id="myform" action="gradeList.jsp" method="post">
+     <form id="myform" action="gradeList.jsp" method="post" class="c2">
       <fieldset>
          <legend>图书信息</legend>
          名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<input type="text" name="bookname" id="bookname" placeholder="请输入图书名称"><br>
