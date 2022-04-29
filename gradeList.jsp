@@ -6,7 +6,7 @@
     pageEncoding="UTF-8"%>   
     <%
       //判断图书编号
-      File files=new File("D://books.txt");
+      File files=new File("/books.txt");
       FileReader frs=new FileReader(files); //字符输入流
       BufferedReader brs=new BufferedReader(frs); 
       String lineNum="";
@@ -41,7 +41,7 @@
 	  }
       if(nLine!=null&&cNELine!=0) //修改
       {    	   
-    	  File file_03=new File("D://books.txt");
+    	  File file_03=new File("/books.txt");
           FileReader fr_03=new FileReader(file_03); 
           BufferedReader br_03=new BufferedReader(fr_03);   
           String temp=br_03.readLine();
@@ -61,7 +61,7 @@
         	  in++;
           }
           br_03.close();         
-          File file_04=new File("D://books.txt");
+          File file_04=new File("/books.txt");
           FileWriter writef_04=new FileWriter(file_04);
           if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null)
           {
@@ -71,7 +71,7 @@
       }    	      
       if(cNELine2!=0) //删除
       { 
-    	  File file_05=new File("D://books.txt");
+    	  File file_05=new File("/books.txt");
           FileReader fr_05=new FileReader(file_05); 
           BufferedReader br_05=new BufferedReader(fr_05);   
           String temp2=br_05.readLine();
@@ -87,13 +87,13 @@
         	  in2++;
           }
           br_05.close();         
-          File file_06=new File("D://books.txt");
+          File file_06=new File("/books.txt");
           FileWriter writef_06=new FileWriter(file_06);
           writef_06.write(allStr2);
           writef_06.close();
       }      
       //打开txt文件
-      File file_02=new File("D://books.txt");
+      File file_02=new File("/books.txt");
       FileWriter writef=new FileWriter(file_02,true);
       if(BookName!=null&&Writer!=null&&Type!=null&&Price!=null&&Outname!=null&&Time!=null&&cNELine==0&&cNELine2==0) //新增
       {
@@ -101,7 +101,7 @@
       }    
       writef.close();
       //实时检查更新图书编号
-      FileReader fr_07=new FileReader("D://books.txt"); 
+      FileReader fr_07=new FileReader("/books.txt"); 
       BufferedReader br_07=new BufferedReader(fr_07);
       String temp3=br_07.readLine();
       String allStr3="";
@@ -124,7 +124,6 @@
     			  if(index3==7)
     			  {
     				  index3=0;
-    				  //finalStr=finalStr+"\n";
     			  }   				  
     		  }
     	  }
@@ -135,7 +134,7 @@
     	  }    		      	  
       }     
       br_07.close();
-      File file_08=new File("D://books.txt");
+      File file_08=new File("/books.txt");
       FileWriter writef_08=new FileWriter(file_08);
       writef_08.write(finalStr);
       writef_08.close();
@@ -146,19 +145,19 @@
 <head>
 <meta charset="UTF-8">
    <title>My Books List</title>
+   <link rel="stylesheet" type="text/css" href="mycss.css">
 </head>
 <body>
    <!-- 图书表格 -->
-   <div id="mytable">
-      <table border="1" cellspacing="5" cellpadding="1" id="myTable">
+   <div class="mytable">
+      <table border="1" id="myTable">
          <tr align="center">
 			<td>图书编号</td><td>图书名称</td><td>作者信息</td><td>类型</td>
 			<td>价格</td><td>出版社</td><td>出版时间</td><td>操作</td>
 		</tr>
 		<!-- 读取txt文档信息 -->
         <%
-           //String filePath=application.getRealPath("/books.txt");
-           File file=new File("D://books.txt");
+           File file=new File("/books.txt");
            FileReader fr=new FileReader(file); //字符输入流
            BufferedReader br=new BufferedReader(fr); //字符缓冲流,可以逐行读取            
            String Line_1=br.readLine(); //读取第一行
@@ -183,9 +182,8 @@
         	   }
         	   if(index==8)
         	   {
-        		   out.println("<td>"+"<a href='javascript:void(0);' onclick='formReset()'>修改</a>"+"&nbsp"+"<a href=''>删除</a>");
-        		   out.println("<input type='button' onclick='editRow(this)' value='修改'/>");
-        		   out.println("<input type='button' onclick='remove(this)' value='删除'/>");
+        		   out.println("<td><input type='button' onclick='editRow(this)' value='修改'/>");
+        		   out.println("<input type='button' onclick='remove(this)' value='删除'/></td>");
         		   out.println("</tr>");
         		   index=1;
         	   }
@@ -193,29 +191,30 @@
            br.close();
         %>
       </table>  
-      <input type="button" value="新增图书" onclick="formReset()"/>&nbsp<input type="button" value="操作信息" /><p></p>
+      <input type="button" value="新增图书" onclick="formReset()"/>&nbsp<input type="button" value="操作信息" />
+      <p></p>
    </div>
 
    <!-- 图书信息列表 -->
-   <div id="form1">
+   <div class="form1">
      <form id="myform" action="gradeList.jsp" method="post">
       <fieldset>
          <legend>图书信息</legend>
-         名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<input type="text" name="bookname" id="bookname"><br>
-         作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：<input type="text" name="writer" id="writer"><br>
+         名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：<input type="text" name="bookname" id="bookname" placeholder="请输入图书名称"><br>
+         作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;者：<input type="text" name="writer" id="writer" placeholder="请输入作者"><br>
          类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：<input type="radio" name="check" value="软件工程">软件工程&nbsp;
          <input type="radio" name="check" value="程序设计">程序设计&nbsp;
          <input type="radio" name="check" value="数据结构">数据结构<br>
-         价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：<input type="text" name="price" id="price"><br>
+         价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：<input type="text" name="price" id="price" placeholder="请输入价格"><br>
          出&nbsp;版&nbsp;社：<select name="outname" id="outname">
            <option value="清华大学出版社" selected="">清华大学出版社</option>
 						<option value="北京大学出版社">北京大学出版社</option>
 						<option value="机械工业出版社">机械工业出版社</option>
          </select><br>        
-         出版时间：<input type="text" name="outtime" id="outtime"><br>
-         <input type="submit" value="取消">&nbsp;&nbsp;<input type="submit" value="确定">
+         出版时间：<input type="text" name="outtime" id="outtime" placeholder="日期格式：2022-4-29"><br>
+         <div class="btn1"><button type="submit" >取消</button>&nbsp;&nbsp;<button type="submit" >确定</button></div>        
          <input type="text" style="display:none" name="nl" id="nl"/>
-         <input type="text" style="display:none" name="nl2" id="nl2"/>
+         <input type="text" style="display:none" name="nl2" id="nl2"/>       
       </fieldset>
      </form>  
    </div>  
@@ -228,6 +227,7 @@
  		 var cells=tr2.cells; //获取单元格数
     	 var NL=cells[0].innerText; //获取当前行数,便于修改txt文档
     	 document.getElementById('nl2').value=NL;
+    	 alert("确认删除请点击下方确认按钮")
       }
       <!--功能:按下按钮后清空表单-->
 	  function formReset()
