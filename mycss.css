@@ -1,0 +1,52 @@
+@charset "UTF-8";
+body{
+	background:url("img/2.jpg");
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+.form1{
+	margin:19px;
+	width:760px;
+	font-size:19px;
+	border:2px solid;
+	border-style:dashed;
+	border-color:gray;
+	padding:11px;
+}
+.form1 input{
+	height:19px;
+	margin:5px;
+	border-radius:4.5px;
+	font-family: tahoma, arial, "Hiragino Sans GB", "宋体", sans-serif;
+}
+.btn1 button{
+	width:70px;
+	font-size:18px;
+	border-radius:4px;
+	font-weight:500;
+}
+.mytable{
+	margin:10px;
+	font-size:19px;
+	padding:9px;
+	width:980;
+}
+.mytable input{
+	padding:4px;
+	margin:7px;
+	height:28px;
+	font-size:16.5px;
+	font-weight:548;
+	border-radius:4.5px;
+}
+table tr:nth-child(odd) {
+		  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+		  background-color: #ffffff;
+}
+
+
+
+
+
